@@ -1,6 +1,8 @@
 const Feedback = require("../models/feedbackModel");
+const User = require("../models/userModel");
 const asyncHandler = require("express-async-handler");
 const validateMongoDbId = require("../utils/validateMongodbId");
+const sendEmail = require("../utils/sendEmail");
 
 const createFeedback = asyncHandler(async (req, res) => {
   try {
@@ -11,7 +13,7 @@ const createFeedback = asyncHandler(async (req, res) => {
   }
 });
 
-const updateFeedback = asyncHandler(async (req, res) => {
+const updateFeedbackStatus = asyncHandler(async (req, res) => {
   const { id } = req.params;
   validateMongoDbId(id);
   try {
@@ -38,12 +40,13 @@ const getFeedback = asyncHandler(async (req, res) => {
   const { id } = req.params;
   validateMongoDbId(id);
   try {
-    const getFeedback = await Feedback.findById(id);
-    res.json(getFeedback);
+    const feedback = await Feedback.findById(id);
+    res.json(feedback);
   } catch (error) {
     throw new Error(error);
   }
 });
+
 const getFeedbacks = asyncHandler(async (req, res) => {
   try {
     const feedbacks = await Feedback.find();
@@ -52,10 +55,40 @@ const getFeedbacks = asyncHandler(async (req, res) => {
     throw new Error(error);
   }
 });
+
+const replyFeedback = asyncHandler(async (req, res) => {
+  try {
+    const { id } = req.params;
+    validateMongoDbId(id);
+
+    const { reply } = req.body;
+
+    const feedback = await Feedback.findById(id);
+    const user = await User.find({ email: feedback?.email });
+
+    if (feedback) {
+      await Feedback.findByIdAndUpdate(id, { reply }, { new: true });
+
+      const data = {
+        to: feedback?.email,
+        text: `Hey ${user?.lastName} ${user?.firstName}`,
+        subject: "Reply Feedback",
+        html: reply,
+      };
+      sendEmail(data);
+
+      res.json({ message: "success" });
+    }
+  } catch (error) {
+    throw new Error(error);
+  }
+});
+
 module.exports = {
   createFeedback,
-  updateFeedback,
+  updateFeedbackStatus,
   deleteFeedback,
   getFeedback,
   getFeedbacks,
+  replyFeedback,
 };

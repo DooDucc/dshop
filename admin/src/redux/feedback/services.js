@@ -16,9 +16,16 @@ const getFeedback = async (id) => {
   return response.data;
 };
 
-const updateFeedback = async (feedback) => {
-  const response = await axiosConfig.put(`feedback/${feedback.id}`, {
-    status: feedback.feedbackData,
+const updateFeedbackStatus = async (feedback) => {
+  const response = await axiosConfig.put(`feedback/status/${feedback.id}`, {
+    status: feedback.status,
+  });
+  return response.data;
+};
+
+const replyFeedback = async (feedback) => {
+  const response = await axiosConfig.put(`feedback/reply/${feedback.id}`, {
+    reply: feedback.reply,
   });
   return response.data;
 };
@@ -27,7 +34,8 @@ const feedbackService = {
   getFeedbacks,
   deleteFeedback,
   getFeedback,
-  updateFeedback,
+  updateFeedbackStatus,
+  replyFeedback,
 };
 
 export default feedbackService;

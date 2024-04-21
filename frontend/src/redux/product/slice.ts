@@ -1,5 +1,6 @@
 import { createSlice, createAction } from "@reduxjs/toolkit"
 import {
+  getAllProducts,
   getProducts,
   addToFavProducts,
   getProduct,
@@ -33,27 +34,23 @@ export type Product = {
 
 export type ProductState = {
   products: Product[]
+  totalPages: number
+  totalProducts: number
   brands: any[]
   categories: any[]
   product: Product | null
   ratings: any
-  isError: boolean
-  isLoading: boolean
-  isSuccess: boolean
-  message: string
   addToFavProducts?: any
 }
 
 const initialState: ProductState = {
   products: [],
+  totalPages: 0,
+  totalProducts: 0,
   brands: [],
   categories: [],
   product: null,
   ratings: null,
-  isError: false,
-  isLoading: false,
-  isSuccess: false,
-  message: "",
 }
 
 export const productSlice = createSlice({
@@ -62,8 +59,13 @@ export const productSlice = createSlice({
   reducers: {},
   extraReducers: builder => {
     builder
-      .addCase(getProducts.fulfilled, (state, action) => {
+      .addCase(getAllProducts.fulfilled, (state, action) => {
         state.products = action.payload
+      })
+      .addCase(getProducts.fulfilled, (state, action) => {
+        state.products = action.payload?.data
+        state.totalPages = action.payload?.totalPages
+        state.totalProducts = action.payload?.totalProducts
       })
       .addCase(getBrands.fulfilled, (state, action) => {
         state.brands = action.payload

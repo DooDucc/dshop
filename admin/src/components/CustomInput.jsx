@@ -15,6 +15,7 @@ const CustomInput = (props) => {
         onChange={onChng}
         onBlur={onBlr}
         disabled={disabled}
+        min={type === "number" ? 1 : undefined}
       />
       <label htmlFor={label}>{label}</label>
     </div>

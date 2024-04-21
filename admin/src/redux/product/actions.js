@@ -1,5 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import productService from "./services";
+import { toast } from "react-toastify";
 
 export const getProducts = createAsyncThunk(
   "product/getProducts",
@@ -27,8 +28,12 @@ export const createProduct = createAsyncThunk(
   "product/createProduct",
   async (productData, thunkAPI) => {
     try {
-      return await productService.createProduct(productData);
+      await productService.createProduct(productData.body);
+      toast.success("Added Successfullly!");
+      productData.navigate("/products");
     } catch (error) {
+      toast.success("Fail to add new product");
+      productData.navigate("/products");
       return thunkAPI.rejectWithValue(error);
     }
   }
@@ -38,8 +43,12 @@ export const updateProduct = createAsyncThunk(
   "product/updateProduct",
   async (product, thunkAPI) => {
     try {
-      return await productService.updateProduct(product);
+      await productService.updateProduct(product.body);
+      toast.success("Updated Successfullly!");
+      product.navigate("/products");
     } catch (error) {
+      toast.success("Fail to update product!");
+      product.navigate("/products");
       return thunkAPI.rejectWithValue(error);
     }
   }

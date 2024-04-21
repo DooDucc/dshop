@@ -1,8 +1,12 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import { BiArrowBack } from "react-icons/bi";
-import { getFeedback, updateFeedback } from "../redux/feedback/actions";
+import {
+  getFeedback,
+  replyFeedback,
+  updateFeedbackStatus,
+} from "../redux/feedback/actions";
 import { resetState } from "../redux/feedback/slice";
 
 const FeedbackDetails = () => {
@@ -14,6 +18,8 @@ const FeedbackDetails = () => {
 
   const { currentFeedback } = useSelector((state) => state.feedback);
 
+  const [reply, setReply] = useState("");
+
   useEffect(() => {
     dispatch(getFeedback(getFeedbackId));
   }, [getFeedbackId]);
@@ -23,12 +29,16 @@ const FeedbackDetails = () => {
   };
 
   const setFeedbackStatus = (value, id) => {
-    const data = { id, feedbackData: value };
-    dispatch(updateFeedback(data));
+    const data = { id, status: value };
+    dispatch(updateFeedbackStatus(data));
     dispatch(resetState());
     setTimeout(() => {
       dispatch(getFeedback(getFeedbackId));
     }, 100);
+  };
+
+  const handleSubmitReply = () => {
+    dispatch(replyFeedback({ body: { id: getFeedbackId, reply }, navigate }));
   };
 
   return (
@@ -75,30 +85,46 @@ const FeedbackDetails = () => {
               onChange={(e) => setFeedbackStatus(e.target.value, getFeedbackId)}
             >
               <option
-                selected={currentFeedback?.status === "Submitted"}
-                value="Submitted"
-              >
-                Submitted
-              </option>
-              <option
-                selected={currentFeedback?.status === "Contacted"}
-                value="Contacted"
-              >
-                Contacted
-              </option>
-              <option
                 selected={currentFeedback?.status === "In Progress"}
                 value="In Progress"
               >
                 In Progress
               </option>
               <option
-                selected={currentFeedback?.status === "Resolved"}
-                value="Resolved"
+                selected={currentFeedback?.status === "Replied"}
+                value="Replied"
               >
-                Resolved
+                Replied
               </option>
             </select>
+          </div>
+        </div>
+        {currentFeedback?.status === "Replied" && (
+          <div className="d-flex align-items-center gap-3">
+            <h6 className="mb-0">Reply:</h6>
+            <p className="mb-0">{currentFeedback?.reply}</p>
+          </div>
+        )}
+        <div>
+          <h6 className="mb-2">Add New Reply:</h6>
+          <textarea
+            className="w-100 form-control"
+            cols={30}
+            rows={4}
+            placeholder="Type something..."
+            onChange={(e) => {
+              setReply(e.target.value);
+            }}
+            value={reply || ""}
+          ></textarea>
+          <div className="d-flex align-items-center justify-content-between">
+            <div></div>
+            <button
+              className="btn btn-primary mt-3"
+              onClick={handleSubmitReply}
+            >
+              Submit
+            </button>
           </div>
         </div>
       </div>

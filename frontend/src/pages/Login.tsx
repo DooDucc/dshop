@@ -1,13 +1,11 @@
-import React, { useEffect } from "react"
 import { Link, useNavigate } from "react-router-dom"
 import { useFormik } from "formik"
 import * as yup from "yup"
-import { toast } from "react-toastify"
 import { GoogleLogin } from "@react-oauth/google"
 import { jwtDecode } from "jwt-decode"
 import FacebookLogin from "react-facebook-login"
 import { FaFacebook } from "react-icons/fa6"
-import { useAppDispatch, useAppSelector } from "../redux/store"
+import { useAppDispatch } from "../redux/store"
 import Container from "../components/Container"
 import Input from "../components/Input"
 import { login } from "../redux/auth/actions"
@@ -114,7 +112,6 @@ const Login = () => {
             <div className="d-flex flex-column justify-content-center align-items-center mt-3">
               <FacebookLogin
                 appId={FB_APP_ID}
-                // onClick={componentClicked}
                 fields="name,email,picture"
                 callback={handleLoginWithFacebook}
                 icon={<FaFacebook className="fs-4 me-2" />}

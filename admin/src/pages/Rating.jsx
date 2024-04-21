@@ -188,7 +188,7 @@ const Rating = () => {
             className="w-100 form-control"
             cols={30}
             rows={4}
-            placeholder="Comment"
+            placeholder="Type something..."
             onChange={(e) => {
               setReply(e.target.value);
             }}

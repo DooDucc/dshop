@@ -19,7 +19,7 @@ import SpecialProduct from "../components/SpecialProduct"
 import Container from "../components/Container"
 import { services } from "../utils"
 import { useAppDispatch, useAppSelector } from "../redux/store"
-import { getProducts } from "../redux/product/actions"
+import { getAllProducts } from "../redux/product/actions"
 import ProductCard from "../components/ProductCard"
 import { getCart } from "../redux/cart/actions"
 
@@ -30,7 +30,7 @@ const Home = () => {
   const { user } = useAppSelector(state => state.auth)
 
   useEffect(() => {
-    dispatch(getProducts())
+    dispatch(getAllProducts())
     if (user?.token !== undefined) {
       dispatch(getCart())
     }
@@ -177,12 +177,12 @@ const Home = () => {
             <h3 className="section-heading">Popular Products</h3>
           </div>
           <div className="row">
-            {products?.map(
-              product =>
-                product?.tags[0] === "popular" && (
-                  <ProductCard key={product?._id} product={product} />
-                ),
-            )}
+            {products
+              ?.filter(product => product?.tags[0] === "popular")
+              ?.slice(0, 4)
+              ?.map?.(product => (
+                <ProductCard key={product?._id} product={product} />
+              ))}
           </div>
         </div>
       </Container>

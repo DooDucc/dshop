@@ -38,14 +38,7 @@ const Addproduct = () => {
   const { brands } = useSelector((state) => state.brand);
   const { categories } = useSelector((state) => state.category);
   const { images } = useSelector((state) => state.upload);
-  const {
-    isSuccess,
-    isError,
-    isLoading,
-    createdProduct,
-    productDetail,
-    updatedProduct,
-  } = useSelector((state) => state.product);
+  const { productDetail } = useSelector((state) => state.product);
 
   const formik = useFormik({
     enableReinitialize: true,
@@ -75,9 +68,9 @@ const Addproduct = () => {
           id: getProductId,
           ...values,
         };
-        dispatch(updateProduct(data));
+        dispatch(updateProduct({ body: data, navigate }));
       } else {
-        dispatch(createProduct(values));
+        dispatch(createProduct({ body: values, navigate }));
       }
       formik.resetForm();
       dispatch(resetProductState());
@@ -98,21 +91,6 @@ const Addproduct = () => {
     dispatch(getBrands());
     dispatch(getCategories());
   }, []);
-
-  useEffect(() => {
-    if (isSuccess && createdProduct) {
-      toast.success("Product Added Successfullly!");
-      navigate("/products");
-    }
-    if (isSuccess && updatedProduct) {
-      toast.success("Product Updated Successfullly!");
-      navigate("/products");
-    }
-    if (isError) {
-      toast.error("Add Product Failed");
-      navigate("/products");
-    }
-  }, [isSuccess, isError, isLoading]);
 
   // useEffect(() => {
   //   console.log(images);

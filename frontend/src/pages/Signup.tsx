@@ -161,7 +161,6 @@ const Signup = () => {
               <FacebookLogin
                 appId={FB_APP_ID}
                 autoLoad={true}
-                // onClick={componentClicked}
                 fields="name,email,picture"
                 callback={handleSigninWithFacebook}
                 icon={<FaFacebook className="fs-4 me-2" />}

@@ -1,7 +1,13 @@
 import { axiosConfig } from "../../utils/axiosConfig"
 
+const getAllProducts = async () => {
+  const response = await axiosConfig.get("product")
+  return response.data
+}
+
 const getProducts = async (data: any) => {
-  const url = `product?${data?.filterBrand ? `brand=${data?.filterBrand}` : ""}
+  const url = `product?page=${data?.page ? data?.page : 1}&limit=${data?.limit ? data?.limit : 9}
+  ${data?.filterBrand ? `&brand=${data?.filterBrand}` : ""}
   ${data?.filterCategory ? `&category=${data?.filterCategory}` : ""}
   ${data?.minPrice ? `&price[gte]=${data?.minPrice}` : ""}
   ${data?.maxPrice ? `&price[lte]=${data?.maxPrice}` : ""}
@@ -57,6 +63,7 @@ const productService = {
   getCategories,
   getRatings,
   replyRating,
+  getAllProducts,
 }
 
 export default productService

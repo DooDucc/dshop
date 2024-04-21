@@ -1,4 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
+import { toast } from "react-toastify";
 import feedbackService from "./services";
 
 export const getFeedbacks = createAsyncThunk(
@@ -33,13 +34,29 @@ export const getFeedback = createAsyncThunk(
   }
 );
 
-export const updateFeedback = createAsyncThunk(
-  "feedback/updateFeedback",
+export const updateFeedbackStatus = createAsyncThunk(
+  "feedback/updateFeedbackStatus",
   async (feedback, thunkAPI) => {
     try {
-      return await feedbackService.updateFeedback(feedback);
+      return await feedbackService.updateFeedbackStatus(feedback);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
+
+export const replyFeedback = createAsyncThunk(
+  "feedback/replyFeedback",
+  async (feedback, { dispatch }) => {
+    try {
+      await feedbackService.replyFeedback(feedback.body);
+      feedback.navigate("/feedbacks");
+      dispatch(
+        updateFeedbackStatus({ id: feedback.body.id, status: "Replied" })
+      );
+      toast.success("Reply successfully");
+    } catch (error) {
+      toast.error("Reply failed");
     }
   }
 );

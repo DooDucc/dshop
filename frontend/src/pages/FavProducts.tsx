@@ -43,29 +43,30 @@ const FavProducts = () => {
               </div>
             </div>
           )}
-          {favProducts?.map((favProduct: any) => (
-            <div key={favProduct?._id} className="col-3">
-              <div className="fav-card position-relative">
-                <img
-                  src={close}
-                  className="position-absolute cross img-fluid"
-                  alt=""
-                  onClick={() => handleDeleteFavProduct(favProduct?._id)}
-                />
-                <div className="fav-card-image">
+          {favProducts?.length > 0 &&
+            favProducts?.map((favProduct: any) => (
+              <div key={favProduct?._id} className="col-3">
+                <div className="fav-card position-relative">
                   <img
-                    src={favProduct?.images[0].url}
+                    src={close}
+                    className="position-absolute cross img-fluid"
                     alt=""
-                    className="img-fluid w-100"
+                    onClick={() => handleDeleteFavProduct(favProduct?._id)}
                   />
-                </div>
-                <div className="p-3">
-                  <h5 className="title">{favProduct?.title}</h5>
-                  <h5 className="price">${favProduct?.price}</h5>
+                  <div className="fav-card-image">
+                    <img
+                      src={favProduct?.images[0].url}
+                      alt=""
+                      className="img-fluid w-100"
+                    />
+                  </div>
+                  <div className="p-3">
+                    <h5 className="title">{favProduct?.title}</h5>
+                    <h5 className="price">${favProduct?.price}</h5>
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
+            ))}
         </div>
       </Container>
     </div>

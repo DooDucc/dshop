@@ -17,10 +17,13 @@ const feedbackSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  reply: {
+    type: String,
+  },
   status: {
     type: String,
-    default: "Submitted",
-    enum: ["Submitted", "Contacted", "In Progress", "Resolved"],
+    default: "In Progress",
+    enum: ["In Progress", "Replied"],
   },
 });
 

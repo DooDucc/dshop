@@ -56,7 +56,7 @@ const MainLayout = () => {
             </span>
             <div className="lg-logo-wrap">
               <GiTechnoHeart className="fs-4 me-2" />
-              <span className="lg-logo">Tech Store</span>
+              <span className="lg-logo">DShop</span>
             </div>
           </h2>
         </div>

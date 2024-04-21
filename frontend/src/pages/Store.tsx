@@ -13,11 +13,11 @@ import { getBrands, getCategories, getProducts } from "../redux/product/actions"
 const Store = () => {
   const dispatch = useAppDispatch()
 
-  const { products, brands, categories } = useAppSelector(
-    state => state.product,
-  )
+  const { products, brands, categories, totalPages, totalProducts } =
+    useAppSelector(state => state.product)
 
   const [grid, setGrid] = useState(4)
+  const [page, setPage] = useState(1)
   const [filterBrand, setFilterBrand] = useState<string | null>(null)
   const [filterCategory, setFilterCategory] = useState<string | null>(null)
   const [minPrice, setMinPrice] = useState<string | null>(null)
@@ -25,16 +25,29 @@ const Store = () => {
   const [sort, setSort] = useState<string | null>(null)
 
   useEffect(() => {
-    dispatch(getProducts())
+    // @ts-ignore
+    dispatch(getProducts({ limit: 9 }))
     dispatch(getBrands())
     dispatch(getCategories())
   }, [])
 
   useEffect(() => {
-    if (filterBrand || filterCategory || minPrice || maxPrice || sort) {
+    if (grid || filterBrand || filterCategory || minPrice || maxPrice || sort) {
+      let limit = 10
+      if (grid === 3) {
+        limit = 12
+      } else if (grid === 4) {
+        limit = 9
+      } else if (grid === 6) {
+        limit = 8
+      } else {
+        limit = 5
+      }
       dispatch(
         // @ts-ignore
         getProducts({
+          page,
+          limit,
           filterBrand,
           filterCategory,
           minPrice,
@@ -43,7 +56,7 @@ const Store = () => {
         }),
       )
     }
-  }, [filterBrand, filterCategory, minPrice, maxPrice, sort])
+  }, [filterBrand, filterCategory, minPrice, maxPrice, sort, grid, page])
 
   const handleResetFilter = () => {
     setFilterBrand(null)
@@ -147,7 +160,7 @@ const Store = () => {
             </button>
           </div>
           <div className="col-9">
-            <div className="filter-grid mb-4">
+            <div className="filter-grid mb-3">
               <div className="d-flex align-items-center justify-content-between">
                 <div className="d-flex align-items-center gap-10">
                   <p className="mb-0 " style={{ width: "100px" }}>
@@ -167,7 +180,9 @@ const Store = () => {
                   </select>
                 </div>
                 <div className="d-flex align-items-center gap-10">
-                  <p className="total-products mb-0">21 products</p>
+                  <p className="total-products mb-0">
+                    {totalProducts} products
+                  </p>
                   <div className="d-flex align-items-center gap-10 grid">
                     <img
                       onClick={() => setGrid(3)}
@@ -197,7 +212,7 @@ const Store = () => {
                 </div>
               </div>
             </div>
-            <div className="products-list pb-5">
+            <div className="products-list pb-3">
               <div className="d-flex gap-10 flex-wrap">
                 {products?.map(product => (
                   <ProductCard
@@ -207,6 +222,49 @@ const Store = () => {
                   />
                 ))}
               </div>
+            </div>
+            <div className="d-flex justify-content-between">
+              <div></div>
+              <nav>
+                <ul className="pagination">
+                  <li
+                    className={`page-item ${page === 1 ? "disabled" : ""}`}
+                    onClick={page > 1 ? () => setPage(page - 1) : undefined}
+                  >
+                    <a className="page-link" href="#" aria-label="Previous">
+                      <span aria-hidden="true">&laquo;</span>
+                    </a>
+                  </li>
+                  {[...Array(totalPages)].map((_, index) => (
+                    <li
+                      key={index}
+                      className="page-item"
+                      onClick={() => setPage(index + 1)}
+                    >
+                      <a
+                        href="#"
+                        className="page-link"
+                        style={{
+                          backgroundColor:
+                            page === index + 1 ? "#e9ecef" : "#fff",
+                        }}
+                      >
+                        {index + 1}
+                      </a>
+                    </li>
+                  ))}
+                  <li
+                    className={`page-item ${page === totalPages ? "disabled" : ""}`}
+                    onClick={
+                      page < totalPages ? () => setPage(page + 1) : undefined
+                    }
+                  >
+                    <a className="page-link" href="#" aria-label="Next">
+                      <span aria-hidden="true">&raquo;</span>
+                    </a>
+                  </li>
+                </ul>
+              </nav>
             </div>
           </div>
         </div>

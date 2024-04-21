@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import {
   deleteFeedback,
   getFeedbacks,
-  updateFeedback,
+  updateFeedbackStatus,
 } from "../redux/feedback/actions";
 import { resetState } from "../redux/feedback/slice";
 import CustomModal from "../components/CustomModal";
@@ -71,28 +71,13 @@ const Feedbacks = () => {
               onChange={(e) => setFeedbackStatus(e.target.value, feedback?._id)}
             >
               <option
-                selected={feedback?.status === "Submitted"}
-                value="Submitted"
-              >
-                Submitted
-              </option>
-              <option
-                selected={feedback?.status === "Contacted"}
-                value="Contacted"
-              >
-                Contacted
-              </option>
-              <option
                 selected={feedback?.status === "In Progress"}
                 value="In Progress"
               >
                 In Progress
               </option>
-              <option
-                selected={feedback?.status === "Resolved"}
-                value="Resolved"
-              >
-                Resolved
+              <option selected={feedback?.status === "Replied"} value="Replied">
+                Replied
               </option>
             </select>
           </>
@@ -119,8 +104,8 @@ const Feedbacks = () => {
   };
 
   const setFeedbackStatus = (value, id) => {
-    const data = { id, feedbackData: value };
-    dispatch(updateFeedback(data));
+    const data = { id, status: value };
+    dispatch(updateFeedbackStatus(data));
   };
 
   const handleDeleteFeedback = (id) => {

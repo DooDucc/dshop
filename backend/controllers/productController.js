@@ -81,13 +81,21 @@ const getAllProducts = asyncHandler(async (req, res) => {
     const limit = req.query.limit;
     const skip = (page - 1) * limit;
     query = query.skip(skip).limit(limit);
+
     if (req.query.page) {
       const productCount = await Product.countDocuments();
       if (skip >= productCount) throw new Error("This Page does not exists");
-    }
 
-    const products = await query;
-    res.json(products);
+      const products = await query;
+      res.json({
+        data: products,
+        totalPages: Math.ceil(productCount / limit),
+        totalProducts: productCount,
+      });
+    } else {
+      const products = await query;
+      res.json(products);
+    }
   } catch (error) {
     throw new Error(error);
   }

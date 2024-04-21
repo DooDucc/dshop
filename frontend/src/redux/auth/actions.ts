@@ -2,16 +2,16 @@ import { createAsyncThunk } from "@reduxjs/toolkit"
 import { toast } from "react-toastify"
 import authService from "./services"
 
-export const login = createAsyncThunk(
-  "auth/login",
-  async (userData, thunkAPI) => {
-    try {
-      return await authService.login(userData)
-    } catch (error) {
-      return thunkAPI.rejectWithValue(error)
-    }
-  },
-)
+export const login = createAsyncThunk("auth/login", async (userData: any) => {
+  try {
+    const res = await authService.login(userData.body)
+    userData.navigate("/")
+    toast.success("Login successully")
+    return res
+  } catch (error) {
+    // toast.error(error?.response?.data.message)
+  }
+})
 
 export const register = createAsyncThunk(
   "auth/register",

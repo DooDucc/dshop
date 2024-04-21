@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-var productSchema = new mongoose.Schema(
+const productSchema = new mongoose.Schema(
   {
     title: {
       type: String,
@@ -38,17 +38,6 @@ var productSchema = new mongoose.Schema(
       },
     ],
     tags: [],
-    // ratings: [
-    //   {
-    //     star: Number,
-    //     comment: String,
-    //     postedby: String,
-    //   },
-    // ],
-    // totalRating: {
-    //   type: String,
-    //   default: 0,
-    // },
   },
   { timestamps: true }
 );

@@ -5,10 +5,13 @@ import { toast } from "react-toastify"
 import { useNavigate } from "react-router-dom"
 import { GoogleLogin } from "@react-oauth/google"
 import { jwtDecode } from "jwt-decode"
+import FacebookLogin from "react-facebook-login"
+import { FaFacebook } from "react-icons/fa6"
 import { useAppDispatch, useAppSelector } from "../redux/store"
 import Container from "../components/Container"
 import Input from "../components/Input"
 import { register } from "../redux/auth/actions"
+import { FB_APP_ID } from "../envVariables"
 
 const schema = yup.object().shape({
   firstName: yup.string().required("First name is Required"),
@@ -63,6 +66,19 @@ const Signup = () => {
         lastName: decode?.given_name,
         email: decode?.email,
         password: decode?.sub,
+      }),
+    )
+  }
+
+  const handleSigninWithFacebook = (response: any) => {
+    const splitName = response?.name.split(/(?<=^\S+)\s/)
+    dispatch(
+      // @ts-ignore
+      register({
+        firstName: splitName[0],
+        lastName: splitName[1],
+        email: response?.email,
+        password: response?.id,
       }),
     )
   }
@@ -142,6 +158,14 @@ const Signup = () => {
               </div>
             </form>
             <div className="d-flex flex-column justify-content-center align-items-center mt-3">
+              <FacebookLogin
+                appId={FB_APP_ID}
+                autoLoad={true}
+                // onClick={componentClicked}
+                fields="name,email,picture"
+                callback={handleSigninWithFacebook}
+                icon={<FaFacebook className="fs-4 me-2" />}
+              />
               <GoogleLogin
                 size="large"
                 onSuccess={credentialResponse => {

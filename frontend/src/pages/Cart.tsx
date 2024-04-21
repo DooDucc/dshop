@@ -20,7 +20,7 @@ const Cart = () => {
   const { user } = useAppSelector(state => state.auth)
 
   useEffect(() => {
-    if (user?.token) {
+    if (user?.token !== undefined) {
       dispatch(getCart())
     }
   }, [user])

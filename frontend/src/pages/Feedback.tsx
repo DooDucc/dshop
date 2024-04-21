@@ -28,7 +28,7 @@ const Feedback = () => {
     initialValues: {
       name: `${user?.firstName} ${user?.lastName}` || "",
       email: String(user?.email) || "",
-      phone: String(user?.phone) || "",
+      phone: user?.phone !== undefined ? String(user?.phone) : "",
       comment: "",
     },
     validationSchema: schema,

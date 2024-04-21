@@ -5,10 +5,13 @@ import * as yup from "yup"
 import { toast } from "react-toastify"
 import { GoogleLogin } from "@react-oauth/google"
 import { jwtDecode } from "jwt-decode"
+import FacebookLogin from "react-facebook-login"
+import { FaFacebook } from "react-icons/fa6"
 import { useAppDispatch, useAppSelector } from "../redux/store"
 import Container from "../components/Container"
 import Input from "../components/Input"
 import { login } from "../redux/auth/actions"
+import { FB_APP_ID } from "../envVariables"
 
 const schema = yup.object().shape({
   email: yup
@@ -22,8 +25,6 @@ const Login = () => {
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
 
-  const { isSuccess } = useAppSelector(state => state.auth)
-
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -32,26 +33,34 @@ const Login = () => {
     validationSchema: schema,
     onSubmit: values => {
       // @ts-ignore
-      dispatch(login(values))
+      dispatch(login({ body: values, navigate }))
     },
   })
-
-  useEffect(() => {
-    if (isSuccess) {
-      setTimeout(() => {
-        navigate("/")
-        toast.success("Login successully")
-      }, 300)
-    }
-  }, [isSuccess])
 
   const handleLoginWithGG = (token: string) => {
     const decode: { email: string; sub: string } = jwtDecode(token)
     dispatch(
       // @ts-ignore
       login({
-        email: decode?.email,
-        password: decode?.sub,
+        body: {
+          email: decode?.email,
+          password: decode?.sub,
+        },
+        navigate,
+      }),
+    )
+  }
+
+  const handleLoginWithFacebook = (response: any) => {
+    console.log("first")
+    dispatch(
+      // @ts-ignore
+      login({
+        body: {
+          email: response?.email,
+          password: response?.id,
+        },
+        navigate,
       }),
     )
   }
@@ -103,6 +112,13 @@ const Login = () => {
               </div>
             </form>
             <div className="d-flex flex-column justify-content-center align-items-center mt-3">
+              <FacebookLogin
+                appId={FB_APP_ID}
+                // onClick={componentClicked}
+                fields="name,email,picture"
+                callback={handleLoginWithFacebook}
+                icon={<FaFacebook className="fs-4 me-2" />}
+              />
               <GoogleLogin
                 size="large"
                 onSuccess={credentialResponse => {

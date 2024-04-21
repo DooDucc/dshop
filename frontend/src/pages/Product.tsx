@@ -38,9 +38,11 @@ const Product = () => {
   useEffect(() => {
     if (getProductId) {
       dispatch(getProduct({ id: getProductId }))
-      dispatch(getRatings({ id: getProductId }))
+      if (user?.token !== undefined) {
+        dispatch(getRatings({ id: getProductId }))
+      }
     }
-  }, [getProductId])
+  }, [getProductId, user])
 
   useEffect(() => {
     cart?.products?.forEach(product => {
@@ -144,12 +146,11 @@ const Product = () => {
                     count={5}
                     size={24}
                     activeColor="#ffd700"
-                    value={product?.totalRating}
+                    value={+ratings?.totalRating}
                     edit={false}
                   />
-                  <p className="mb-0">({product?.totalRating} reviews)</p>
+                  <p className="mb-0">{ratings?.totalRating} reviews</p>
                 </div>
-                <a href="#review">Write a Review</a>
               </div>
               <div className="py-2">
                 <div className="d-flex align-items-center gap-10 my-2">
@@ -251,11 +252,6 @@ const Product = () => {
                         />
                       )}
                     </div>
-                  </div>
-                  <div>
-                    <a href="" className="text-dark">
-                      Write a review
-                    </a>
                   </div>
                 </div>
                 <div className="review-form py-4">

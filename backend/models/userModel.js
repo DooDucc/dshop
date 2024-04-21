@@ -2,7 +2,7 @@ const mongoose = require("mongoose"); // Erase if already required
 const bcrypt = require("bcrypt");
 const crypto = require("crypto");
 
-var userSchema = new mongoose.Schema(
+const userSchema = new mongoose.Schema(
   {
     firstName: {
       type: String,
@@ -19,7 +19,6 @@ var userSchema = new mongoose.Schema(
     },
     phone: {
       type: String,
-      required: true,
     },
     password: {
       type: String,

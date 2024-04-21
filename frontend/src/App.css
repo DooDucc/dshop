@@ -688,3 +688,10 @@ footer .input-group-text {
   background-color: var(--color-777777);
   color: white;
 }
+
+.kep-login-facebook.metro {
+  padding: 6px 36px;
+  font-size: 12px;
+  margin-bottom: 8px;
+  border-radius: 12px;
+}

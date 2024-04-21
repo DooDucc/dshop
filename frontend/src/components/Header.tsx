@@ -77,7 +77,7 @@ const Header = () => {
             <div className="col-2">
               <h1>
                 <Link to="/" className="text-white">
-                  Techstore.
+                  Dshop.
                 </Link>
               </h1>
             </div>

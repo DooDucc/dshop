@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-var ratingSchema = new mongoose.Schema(
+const ratingSchema = new mongoose.Schema(
   {
     star: {
       type: Number,

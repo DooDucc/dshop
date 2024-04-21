@@ -24,6 +24,7 @@ const register = asyncHandler(async (req, res) => {
       throw new Error("User Already Exists");
     }
   } catch (error) {
+    console.log(error);
     throw new Error("Failed to register");
   }
 });

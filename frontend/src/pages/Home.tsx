@@ -27,11 +27,14 @@ const Home = () => {
   const dispatch = useAppDispatch()
 
   const { products } = useAppSelector(state => state.product)
+  const { user } = useAppSelector(state => state.auth)
 
   useEffect(() => {
     dispatch(getProducts())
-    dispatch(getCart())
-  }, [])
+    if (user?.token !== undefined) {
+      dispatch(getCart())
+    }
+  }, [user])
 
   useEffect(() => {
     if (

@@ -21,22 +21,8 @@ export const authSlice = createSlice({
   reducers: {},
   extraReducers: builder => {
     builder
-      .addCase(login.pending, state => {
-        state.isLoading = true
-      })
       .addCase(login.fulfilled, (state, action) => {
-        state.isError = false
-        state.isLoading = false
-        state.isSuccess = true
         state.user = action.payload
-        state.message = "success"
-      })
-      .addCase(login.rejected, (state, action) => {
-        state.isError = true
-        state.isSuccess = false
-        state.isLoading = false
-        // @ts-ignore
-        toast.error(action.payload.response.data.message)
       })
       .addCase(register.pending, state => {
         state.isLoading = true

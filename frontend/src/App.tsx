@@ -15,6 +15,7 @@ import Cart from "./pages/Cart"
 import Checkout from "./pages/Checkout"
 import Orders from "./pages/Orders"
 import Profile from "./pages/Profile"
+import Chatbot from "./Chatbot"
 
 const App = () => {
   return (
@@ -76,6 +77,7 @@ const App = () => {
           </Route>
         </Routes>
       </BrowserRouter>
+      <Chatbot />
     </>
   )
 }

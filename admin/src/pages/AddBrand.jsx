@@ -2,6 +2,7 @@ import { React, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { BiArrowBack } from "react-icons/bi";
 import * as yup from "yup";
 import { useFormik } from "formik";
 import { createBrand, getBrand, updateBrand } from "../redux/brand/actions";
@@ -69,11 +70,23 @@ const AddBrand = () => {
     }
   }, [isSuccess, isError, isLoading]);
 
+  const goBack = () => {
+    navigate(-1);
+  };
+
   return (
     <div>
-      <h3 className="mb-4 title">
-        {getBrandId !== "add" ? "Edit" : "Add"} Brand
-      </h3>
+      <div className="d-flex justify-content-between align-items-center">
+        <h3 className="mb-4 title">
+          {getBrandId !== "add" ? "Edit" : "Add"} Brand
+        </h3>
+        <button
+          className="bg-transpatent border-0 fs-6 mb-0 d-flex align-items-center gap-1"
+          onClick={goBack}
+        >
+          <BiArrowBack className="fs-5" /> Go Back
+        </button>
+      </div>
       <div>
         <form action="" onSubmit={formik.handleSubmit}>
           <CustomInput

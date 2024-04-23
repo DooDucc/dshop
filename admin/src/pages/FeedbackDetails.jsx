@@ -2,12 +2,14 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import { BiArrowBack } from "react-icons/bi";
+import ReactQuill from "react-quill";
 import {
   getFeedback,
   replyFeedback,
   updateFeedbackStatus,
 } from "../redux/feedback/actions";
 import { resetState } from "../redux/feedback/slice";
+import "react-quill/dist/quill.snow.css";
 
 const FeedbackDetails = () => {
   const location = useLocation();
@@ -107,7 +109,8 @@ const FeedbackDetails = () => {
         )}
         <div>
           <h6 className="mb-2">Add New Reply:</h6>
-          <textarea
+          <ReactQuill theme="snow" onChange={setReply} value={reply || ""} />
+          {/* <textarea
             className="w-100 form-control"
             cols={30}
             rows={4}
@@ -116,7 +119,7 @@ const FeedbackDetails = () => {
               setReply(e.target.value);
             }}
             value={reply || ""}
-          ></textarea>
+          ></textarea> */}
           <div className="d-flex align-items-center justify-content-between">
             <div></div>
             <button

@@ -1,10 +1,11 @@
 import { React, useEffect } from "react";
-import { toast } from "react-toastify";
 import * as yup from "yup";
 import { useFormik } from "formik";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import { BiArrowBack } from "react-icons/bi";
 import Dropzone from "react-dropzone";
+import ReactQuill from "react-quill";
 import { getBrands } from "../redux/brand/actions";
 import { getCategories } from "../redux/category/actions";
 import {
@@ -105,11 +106,24 @@ const Addproduct = () => {
     dispatch(deleteImg(id));
   };
 
+  const goBack = () => {
+    navigate(-1);
+  };
+
   return (
     <div>
-      <h3 className="mb-2 title">
-        {getProductId !== "add" ? "Edit" : "Add"} Product
-      </h3>
+      <div className="d-flex justify-content-between align-items-center">
+        <h3 className="mb-2 title">
+          {getProductId !== "add" ? "Edit" : "Add"} Product
+        </h3>
+        <button
+          className="bg-transpatent border-0 fs-6 mb-0 d-flex align-items-center gap-1"
+          onClick={goBack}
+        >
+          <BiArrowBack className="fs-5" /> Go Back
+        </button>
+      </div>
+
       <div>
         <form
           onSubmit={formik.handleSubmit}
@@ -128,14 +142,12 @@ const Addproduct = () => {
             </div>
           </div>
           <div>
-            <textarea
-              className="form-control"
-              placeholder="Enter description"
+            <ReactQuill
+              theme="snow"
               name="description"
               onChange={formik.handleChange("description")}
               value={formik.values.description}
-              rows={3}
-            ></textarea>
+            />
             <div className="error">
               {formik.touched.description && formik.errors.description}
             </div>

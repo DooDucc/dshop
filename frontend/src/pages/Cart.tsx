@@ -46,7 +46,6 @@ const Cart = () => {
     const productData = {
       productId: product?.productDetails?._id,
       quantity: newQuantity === 0 ? 1 : newQuantity,
-      price: product?.price,
     }
     // @ts-ignore
     dispatch(updateProductQuantity(productData))

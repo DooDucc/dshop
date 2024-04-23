@@ -375,12 +375,12 @@ const Product = () => {
             <h3 className="section-heading">Popular Products</h3>
           </div>
           <div className="row">
-            {products?.map(
-              product =>
-                product?.tags[0] === "popular" && (
-                  <ProductCard key={product?._id} product={product} />
-                ),
-            )}
+            {products
+              ?.filter(product => product?.tags[0] === "popular")
+              ?.slice(0, 4)
+              ?.map(product => (
+                <ProductCard key={product?._id} product={product} />
+              ))}
           </div>
         </div>
       </Container>

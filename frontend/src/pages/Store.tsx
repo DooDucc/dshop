@@ -180,9 +180,6 @@ const Store = () => {
                   </select>
                 </div>
                 <div className="d-flex align-items-center gap-10">
-                  <p className="total-products mb-0">
-                    {totalProducts} products
-                  </p>
                   <div className="d-flex align-items-center gap-10 grid">
                     <img
                       onClick={() => setGrid(3)}
@@ -223,49 +220,51 @@ const Store = () => {
                 ))}
               </div>
             </div>
-            <div className="d-flex justify-content-between">
-              <div></div>
-              <nav>
-                <ul className="pagination">
-                  <li
-                    className={`page-item ${page === 1 ? "disabled" : ""}`}
-                    onClick={page > 1 ? () => setPage(page - 1) : undefined}
-                  >
-                    <a className="page-link" href="#" aria-label="Previous">
-                      <span aria-hidden="true">&laquo;</span>
-                    </a>
-                  </li>
-                  {[...Array(totalPages)].map((_, index) => (
+            {products?.length > 5 && (
+              <div className="d-flex justify-content-between">
+                <div></div>
+                <nav>
+                  <ul className="pagination">
                     <li
-                      key={index}
-                      className="page-item"
-                      onClick={() => setPage(index + 1)}
+                      className={`page-item ${page === 1 ? "disabled" : ""}`}
+                      onClick={page > 1 ? () => setPage(page - 1) : undefined}
                     >
-                      <a
-                        href="#"
-                        className="page-link"
-                        style={{
-                          backgroundColor:
-                            page === index + 1 ? "#e9ecef" : "#fff",
-                        }}
-                      >
-                        {index + 1}
+                      <a className="page-link" href="#" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
                       </a>
                     </li>
-                  ))}
-                  <li
-                    className={`page-item ${page === totalPages ? "disabled" : ""}`}
-                    onClick={
-                      page < totalPages ? () => setPage(page + 1) : undefined
-                    }
-                  >
-                    <a className="page-link" href="#" aria-label="Next">
-                      <span aria-hidden="true">&raquo;</span>
-                    </a>
-                  </li>
-                </ul>
-              </nav>
-            </div>
+                    {[...Array(totalPages)].map((_, index) => (
+                      <li
+                        key={index}
+                        className="page-item"
+                        onClick={() => setPage(index + 1)}
+                      >
+                        <a
+                          href="#"
+                          className="page-link"
+                          style={{
+                            backgroundColor:
+                              page === index + 1 ? "#e9ecef" : "#fff",
+                          }}
+                        >
+                          {index + 1}
+                        </a>
+                      </li>
+                    ))}
+                    <li
+                      className={`page-item ${page === totalPages ? "disabled" : ""}`}
+                      onClick={
+                        page < totalPages ? () => setPage(page + 1) : undefined
+                      }
+                    >
+                      <a className="page-link" href="#" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                      </a>
+                    </li>
+                  </ul>
+                </nav>
+              </div>
+            )}
           </div>
         </div>
       </Container>

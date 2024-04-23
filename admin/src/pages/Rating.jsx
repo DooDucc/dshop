@@ -5,7 +5,9 @@ import { useDispatch, useSelector } from "react-redux";
 import ReactStars from "react-rating-stars-component";
 import { BiArrowBack } from "react-icons/bi";
 import { AiFillDelete } from "react-icons/ai";
+import ReactQuill from "react-quill";
 import { getRating, replyRating } from "../redux/rating/actions";
+import "react-quill/dist/quill.snow.css";
 
 const columnsSubRating = [
   {
@@ -184,7 +186,7 @@ const Rating = () => {
         </div>
         <div>
           <h6 className="mb-2">Add Reply:</h6>
-          <textarea
+          {/* <textarea
             className="w-100 form-control"
             cols={30}
             rows={4}
@@ -193,7 +195,8 @@ const Rating = () => {
               setReply(e.target.value);
             }}
             value={reply || ""}
-          ></textarea>
+          ></textarea> */}
+          <ReactQuill theme="snow" onChange={setReply} value={reply || ""} />
           <div className="d-flex align-items-center justify-content-between">
             <div></div>
             <button

@@ -2,8 +2,6 @@
 import ReactStars from "react-rating-stars-component"
 import { Link, useLocation, useNavigate } from "react-router-dom"
 import { useAppDispatch } from "../redux/store"
-import add from "../images/add-cart.svg"
-import compare from "../images/prodcompare.svg"
 import view from "../images/view.svg"
 import fav from "../images/wish.svg"
 import { Product } from "../redux/product/slice"

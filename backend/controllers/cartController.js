@@ -1,4 +1,5 @@
 const asyncHandler = require("express-async-handler");
+const mongoose = require("mongoose");
 const Cart = require("../models/cartModel");
 const Product = require("../models/productModel");
 const validateMongoDbId = require("../utils/validateMongodbId");
@@ -79,49 +80,31 @@ const getUserCart = asyncHandler(async (req, res) => {
 
 const updateProductQuantity = asyncHandler(async (req, res) => {
   const { _id } = req.user;
-  const { productId, quantity, price } = req.body;
+  const { productId, quantity } = req.body;
   validateMongoDbId(_id);
   try {
     const alreadyExistCart = await Cart.findOne({ orderby: _id });
 
     if (alreadyExistCart) {
-      const res1 = await Cart.findByIdAndUpdate(
-        { _id: alreadyExistCart._id },
+      await Cart.updateOne(
         {
-          $pull: {
-            products: {
-              productDetails: productId,
-            },
-          },
+          _id: alreadyExistCart?._id,
+          "products.productDetails": new mongoose.Types.ObjectId(productId),
         },
-        {
-          new: true,
-        }
-      );
-      const res2 = await Cart.findByIdAndUpdate(
-        { _id: res1._id },
-        {
-          $push: {
-            products: {
-              productDetails: productId,
-              quantity: quantity,
-              price: price,
-            },
-          },
-        },
-        {
-          new: true,
-        }
+        { $set: { "products.$.quantity": quantity } }
       );
 
-      const cartTotal = res2.products?.reduce(
+      const cartAfterUpdateQuantity = await Cart.findOne({ orderby: _id });
+
+      const updateCartTotal = cartAfterUpdateQuantity.products?.reduce(
         (acc, curr) => acc + curr.quantity * curr.price,
         0
       );
+
       const updatedCart = await Cart.findByIdAndUpdate(
-        { _id: res1._id },
+        { _id: alreadyExistCart._id },
         {
-          cartTotal,
+          cartTotal: updateCartTotal,
         },
         {
           new: true,

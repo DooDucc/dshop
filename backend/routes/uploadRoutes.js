@@ -9,6 +9,6 @@ const router = express.Router();
 
 router.post("/", uploadPhoto.array("images", 10), uploadImages);
 
-router.delete("/delete-img/:id", authMiddleware, isAdmin, deleteImages);
+router.delete("/delete-img/:id", deleteImages);
 
 module.exports = router;

@@ -1,7 +1,7 @@
 import { axiosConfig } from "../../utils/axiosConfig"
 
 const login = async (user: any) => {
-  const response = await axiosConfig.post(`user/login`, user)
+  const response = await axiosConfig.post(`/api/user/login`, user)
   if (response.data) {
     localStorage.setItem("user", JSON.stringify(response.data))
   }
@@ -9,7 +9,7 @@ const login = async (user: any) => {
 }
 
 const register = async (user: any) => {
-  const response = await axiosConfig.post(`user/register`, user)
+  const response = await axiosConfig.post(`/api/user/register`, user)
   if (response.data) {
     localStorage.setItem("user", JSON.stringify(response.data))
   }
@@ -17,7 +17,7 @@ const register = async (user: any) => {
 }
 
 const forgotPasswordToken = async (email: string) => {
-  const response = await axiosConfig.post(`user/forgot-password-token`, {
+  const response = await axiosConfig.post(`/api/user/forgot-password-token`, {
     email,
   })
 
@@ -25,15 +25,18 @@ const forgotPasswordToken = async (email: string) => {
 }
 
 const resetPassword = async (data: any) => {
-  const response = await axiosConfig.put(`user/reset-password/${data.token}`, {
-    password: data.password,
-  })
+  const response = await axiosConfig.put(
+    `/api/user/reset-password/${data.token}`,
+    {
+      password: data.password,
+    },
+  )
 
   return response.data
 }
 
 const updateProfile = async (user: any) => {
-  const response = await axiosConfig.put(`user/edit-user`, user)
+  const response = await axiosConfig.put(`/api/user/edit-user`, user)
   if (response.data) {
     const oldProfile = JSON.parse(localStorage.getItem("user") || "")
     localStorage.setItem(
@@ -50,7 +53,7 @@ const updateProfile = async (user: any) => {
 }
 
 const getFavProducts = async () => {
-  const response = await axiosConfig.get(`user/favProducts`)
+  const response = await axiosConfig.get(`/api/user/favProducts`)
 
   return response.data
 }

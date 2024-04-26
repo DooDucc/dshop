@@ -102,24 +102,17 @@ const FeedbackDetails = () => {
           </div>
         </div>
         {currentFeedback?.status === "Replied" && (
-          <div className="d-flex align-items-center gap-3">
+          <div className="d-flex gap-3">
             <h6 className="mb-0">Reply:</h6>
-            <p className="mb-0">{currentFeedback?.reply}</p>
+            <p
+              className="mb-0"
+              dangerouslySetInnerHTML={{ __html: currentFeedback?.reply }}
+            ></p>
           </div>
         )}
         <div>
           <h6 className="mb-2">Add New Reply:</h6>
           <ReactQuill theme="snow" onChange={setReply} value={reply || ""} />
-          {/* <textarea
-            className="w-100 form-control"
-            cols={30}
-            rows={4}
-            placeholder="Type something..."
-            onChange={(e) => {
-              setReply(e.target.value);
-            }}
-            value={reply || ""}
-          ></textarea> */}
           <div className="d-flex align-items-center justify-content-between">
             <div></div>
             <button

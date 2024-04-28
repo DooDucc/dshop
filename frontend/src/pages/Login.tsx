@@ -50,7 +50,6 @@ const Login = () => {
   }
 
   const handleLoginWithFacebook = (response: any) => {
-    console.log("first")
     dispatch(
       // @ts-ignore
       login({

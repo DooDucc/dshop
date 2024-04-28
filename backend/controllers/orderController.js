@@ -58,8 +58,8 @@ const createOrder = asyncHandler(async (req, res) => {
         payment_method_types: ["card"],
         line_items: lineItems,
         mode: "payment",
-        success_url: "http://localhost:5173/?checkout=true",
-        cancel_url: "http://localhost:5173/",
+        success_url: `${process.env.FE_URL}/?checkout=true`,
+        cancel_url: process.env.FE_URL,
       });
 
       res.json({ id: session.id });

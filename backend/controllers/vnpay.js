@@ -1,6 +1,4 @@
-const asyncHandler = require("express-async-handler");
 const moment = require("moment");
-const Order = require("../models/orderModel");
 
 const createVNPayPayment = (userCart) => {
   const date = new Date();
@@ -38,7 +36,6 @@ const createVNPayPayment = (userCart) => {
   vnp_Params["vnp_SecureHash"] = signed;
   vnpUrl += "?" + querystring.stringify(vnp_Params, { encode: false });
 
-  // res.status(200).json({ paymentUrl: vnpUrl });
   return vnpUrl;
 };
 

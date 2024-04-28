@@ -242,15 +242,13 @@ const Product = () => {
                   <div>
                     <h5 className="mb-2">Average Customer Reviews</h5>
                     <div className=" d-flex gap-10 align-items-center">
-                      {ratings?.totalRating && (
-                        <ReactStars
-                          count={5}
-                          size={24}
-                          activeColor="#ffd700"
-                          value={ratings?.totalRating}
-                          edit={false}
-                        />
-                      )}
+                      <ReactStars
+                        count={5}
+                        size={24}
+                        activeColor="#ffd700"
+                        value={ratings?.totalRating}
+                        edit={false}
+                      />
                     </div>
                   </div>
                 </div>

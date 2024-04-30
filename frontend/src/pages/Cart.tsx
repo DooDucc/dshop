@@ -71,14 +71,14 @@ const Cart = () => {
                       <tr key={index}>
                         <td className="d-flex align-items-center gap-10">
                           <div className="d-flex align-items-center gap-10">
-                            <div className="w-25">
+                            <div>
                               {product?.productDetails?.images?.map(
                                 (image, index) => (
                                   <img
                                     key={index}
                                     src={image?.url}
-                                    className="img-fluid"
                                     alt=""
+                                    style={{ width: "142.5px" }}
                                   />
                                 ),
                               )}

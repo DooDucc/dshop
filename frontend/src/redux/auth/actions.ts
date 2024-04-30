@@ -9,17 +9,22 @@ export const login = createAsyncThunk("auth/login", async (userData: any) => {
     toast.success("Login successully")
     return res
   } catch (error) {
+    // @ts-ignore
     toast.error(error?.response?.data.message)
   }
 })
 
 export const register = createAsyncThunk(
   "auth/register",
-  async (userData, thunkAPI) => {
+  async (userData: any) => {
     try {
-      return await authService.register(userData)
+      const res = await authService.register(userData)
+      userData.navigate("/")
+      toast.success("Signup successully")
+      return res
     } catch (error) {
-      return thunkAPI.rejectWithValue(error)
+      // @ts-ignore
+      toast.error(error?.response?.data.message)
     }
   },
 )

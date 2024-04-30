@@ -1,13 +1,11 @@
-import React, { useEffect } from "react"
 import { useFormik } from "formik"
 import * as yup from "yup"
-import { toast } from "react-toastify"
 import { useNavigate } from "react-router-dom"
 import { GoogleLogin } from "@react-oauth/google"
 import { jwtDecode } from "jwt-decode"
 import FacebookLogin from "react-facebook-login"
 import { FaFacebook } from "react-icons/fa6"
-import { useAppDispatch, useAppSelector } from "../redux/store"
+import { useAppDispatch } from "../redux/store"
 import Container from "../components/Container"
 import Input from "../components/Input"
 import { register } from "../redux/auth/actions"
@@ -28,8 +26,6 @@ const Signup = () => {
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
 
-  const { isSuccess } = useAppSelector(state => state.auth)
-
   const formik = useFormik({
     initialValues: {
       firstName: "",
@@ -41,16 +37,9 @@ const Signup = () => {
     validationSchema: schema,
     onSubmit: values => {
       // @ts-ignore
-      dispatch(register(values))
+      dispatch(register({ body: values, navigate }))
     },
   })
-
-  useEffect(() => {
-    if (isSuccess) {
-      toast.success("Register successully")
-      navigate("/")
-    }
-  }, [isSuccess])
 
   const handleSigninWithGG = (token: string) => {
     const decode: {
@@ -62,10 +51,13 @@ const Signup = () => {
     dispatch(
       // @ts-ignore
       register({
-        firstName: decode?.family_name,
-        lastName: decode?.given_name,
-        email: decode?.email,
-        password: decode?.sub,
+        body: {
+          firstName: decode?.family_name,
+          lastName: decode?.given_name,
+          email: decode?.email,
+          password: decode?.sub,
+        },
+        navigate,
       }),
     )
   }
@@ -75,10 +67,13 @@ const Signup = () => {
     dispatch(
       // @ts-ignore
       register({
-        firstName: splitName[0],
-        lastName: splitName[1],
-        email: response?.email,
-        password: response?.id,
+        body: {
+          firstName: splitName[0],
+          lastName: splitName[1],
+          email: response?.email,
+          password: response?.id,
+        },
+        navigate,
       }),
     )
   }

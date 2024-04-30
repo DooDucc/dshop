@@ -137,7 +137,7 @@ const Dashboard = () => {
     yField: "sales",
     scale: {
       y: {
-        domainMax: 50,
+        domainMax: 20,
       },
     },
     axis: {

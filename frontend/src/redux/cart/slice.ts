@@ -36,18 +36,10 @@ export type CartState = {
     orderby: string
     products: ProductsCart[]
   } | null
-  isError: boolean
-  isLoading: boolean
-  isSuccess: boolean
-  message: string
 }
 
 const initialState: CartState = {
   cart: null,
-  isError: false,
-  isLoading: false,
-  isSuccess: false,
-  message: "",
 }
 
 export const cartSlice = createSlice({
@@ -56,20 +48,8 @@ export const cartSlice = createSlice({
   reducers: {},
   extraReducers: builder => {
     builder
-      .addCase(addToCart.pending, state => {
-        state.isLoading = true
-      })
       .addCase(addToCart.fulfilled, (state, action) => {
-        state.isLoading = false
-        state.isError = false
-        state.isSuccess = true
         state.cart = action.payload
-      })
-      .addCase(addToCart.rejected, (state, action) => {
-        state.isLoading = false
-        state.isError = true
-        state.isSuccess = false
-        state.message = action.error.message || ""
       })
       .addCase(getCart.fulfilled, (state, action) => {
         state.cart = action.payload

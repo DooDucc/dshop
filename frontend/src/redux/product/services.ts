@@ -1,7 +1,7 @@
 import { axiosConfig } from "../../utils/axiosConfig"
 
 const getAllProducts = async () => {
-  const response = await axiosConfig.get("product")
+  const response = await axiosConfig.get("/api/product")
   return response.data
 }
 

@@ -65,7 +65,10 @@ const Product = () => {
             // @ts-ignore
             {
               body: {
-                cart: { productId: getProductId, quantity },
+                cart: {
+                  productId: getProductId,
+                  quantity: quantity === 0 ? 1 : quantity,
+                },
               },
               navigate,
             },

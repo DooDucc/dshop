@@ -3,7 +3,7 @@ import orderService from "./services"
 
 export const createOrder = createAsyncThunk(
   "order/createOrder",
-  async (orderData, { dispatch }) => {
+  async orderData => {
     try {
       // @ts-ignore
       const res = await orderService.createOrder(orderData.body)
@@ -20,12 +20,9 @@ export const createOrder = createAsyncThunk(
   },
 )
 
-export const getOrders = createAsyncThunk(
-  "order/getOrders",
-  async (_, { dispatch }) => {
-    try {
-      const res = await orderService.getOrders()
-      return res
-    } catch (error) {}
-  },
-)
+export const getOrders = createAsyncThunk("order/getOrders", async () => {
+  try {
+    const res = await orderService.getOrders()
+    return res
+  } catch (error) {}
+})

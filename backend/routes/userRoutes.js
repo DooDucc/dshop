@@ -7,7 +7,6 @@ const {
   getUser,
   updateUser,
   deleteUser,
-  updatePassword,
   forgotPasswordToken,
   resetPassword,
   getFavProducts,
@@ -18,7 +17,6 @@ const { authMiddleware, isAdmin } = require("../middlewares/authMiddleware");
 
 router.post("/register", register);
 router.post("/login", loginUser);
-router.put("/password", authMiddleware, updatePassword);
 router.post("/forgot-password-token", forgotPasswordToken);
 router.put("/reset-password/:token", resetPassword);
 router.get("/favProducts", authMiddleware, getFavProducts);

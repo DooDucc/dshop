@@ -140,6 +140,7 @@ const Store = () => {
                     type="email"
                     className="form-control"
                     id="from"
+                    value={minPrice || ""}
                     onChange={e => setMinPrice(e.target.value)}
                   />
                   <label htmlFor="from">From</label>
@@ -149,6 +150,7 @@ const Store = () => {
                     type="email"
                     className="form-control"
                     id="to"
+                    value={maxPrice || ""}
                     onChange={e => setMaxPrice(e.target.value)}
                   />
                   <label htmlFor="to">To</label>

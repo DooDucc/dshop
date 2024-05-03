@@ -57,7 +57,6 @@ const getAllProducts = asyncHandler(async (req, res) => {
     excludeFields.forEach((el) => delete queryObj[el]);
     let queryStr = JSON.stringify(queryObj);
     queryStr = queryStr.replace(/\b(gte|gt|lte|lt)\b/g, (match) => `$${match}`);
-
     let query = Product.find(JSON.parse(queryStr));
 
     // Sorting
@@ -66,14 +65,6 @@ const getAllProducts = asyncHandler(async (req, res) => {
       query = query.sort(sortBy);
     } else {
       query = query.sort("-createdAt");
-    }
-
-    // Limiting the fields
-    if (req.query.fields) {
-      const fields = req.query.fields.split(",").join(" ");
-      query = query.select(fields);
-    } else {
-      query = query.select("-__v");
     }
 
     // Pagination
@@ -136,66 +127,6 @@ const addToFavProducts = asyncHandler(async (req, res) => {
     throw new Error(error);
   }
 });
-
-// const rating = asyncHandler(async (req, res) => {
-//   const { _id } = req.user;
-//   const { star, prodId, comment } = req.body;
-//   try {
-//     const user = await User.findById(_id);
-//     const product = await Product.findById(prodId);
-//     const alreadyRated = product.ratings.find(
-//       (userId) => userId.postedby.toString() === _id.toString()
-//     );
-//     if (alreadyRated) {
-//       await Product.updateOne(
-//         {
-//           ratings: { $elemMatch: alreadyRated },
-//         },
-//         {
-//           $set: { "ratings.$.star": star, "ratings.$.comment": comment },
-//         },
-//         {
-//           new: true,
-//         }
-//       );
-//     } else {
-//       await Product.findByIdAndUpdate(
-//         prodId,
-//         {
-//           $push: {
-//             ratings: {
-//               star: star,
-//               comment: comment,
-//               postedby: `${user.firstName} ${user.lastName}`,
-//             },
-//           },
-//         },
-//         {
-//           new: true,
-//         }
-//       );
-//     }
-//     const getAllRatings = await Product.findById(prodId);
-
-//     const totalRating = getAllRatings.ratings.length;
-//     const ratingSum = getAllRatings.ratings
-//       .map((item) => item.star)
-//       .reduce((prev, curr) => prev + curr, 0);
-//     const actualRating = Math.round(ratingSum / totalRating);
-
-//     const finalProduct = await Product.findByIdAndUpdate(
-//       prodId,
-//       {
-//         totalRating: actualRating,
-//       },
-//       { new: true }
-//     );
-
-//     res.json(finalProduct);
-//   } catch (error) {
-//     throw new Error(error);
-//   }
-// });
 
 const rating = asyncHandler(async (req, res) => {
   try {

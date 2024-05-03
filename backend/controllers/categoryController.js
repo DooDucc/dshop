@@ -10,6 +10,7 @@ const createCategory = asyncHandler(async (req, res) => {
     throw new Error(error);
   }
 });
+
 const updateCategory = asyncHandler(async (req, res) => {
   const { id } = req.params;
   validateMongoDbId(id);
@@ -22,6 +23,7 @@ const updateCategory = asyncHandler(async (req, res) => {
     throw new Error(error);
   }
 });
+
 const deleteCategory = asyncHandler(async (req, res) => {
   const { id } = req.params;
   validateMongoDbId(id);
@@ -32,6 +34,7 @@ const deleteCategory = asyncHandler(async (req, res) => {
     throw new Error(error);
   }
 });
+
 const getCategory = asyncHandler(async (req, res) => {
   const { id } = req.params;
   validateMongoDbId(id);
@@ -42,6 +45,7 @@ const getCategory = asyncHandler(async (req, res) => {
     throw new Error(error);
   }
 });
+
 const getAllCategories = asyncHandler(async (req, res) => {
   try {
     const categories = await Category.find();
@@ -50,6 +54,7 @@ const getAllCategories = asyncHandler(async (req, res) => {
     throw new Error(error);
   }
 });
+
 module.exports = {
   createCategory,
   updateCategory,
